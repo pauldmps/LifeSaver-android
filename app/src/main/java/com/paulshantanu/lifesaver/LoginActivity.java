@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        loginData = getApplication().getSharedPreferences("loginData", MODE_PRIVATE);;
+        loginData = getApplication().getSharedPreferences("loginData", MODE_PRIVATE);
         Log.i("debug","preferences token: "+ loginData.getString("token",""));
         if(!(loginData.getString("loginToken","").equals(null)||loginData.getString("loginToken","").equals(""))){
             checkLogin();
@@ -48,8 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         coordinatorLayoutView = findViewById(R.id.snackbarPosition);
 
         final List<Pair<String,String>> postData = new ArrayList<>();
-        postData.add(new Pair<>("username",etUsername.getText().toString().trim()));
-        postData.add(new Pair<>("password",etPassword.getText().toString().trim()));
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                postData.add(new Pair<>("username",etUsername.getText().toString().trim()));
+                postData.add(new Pair<>("password", etPassword.getText().toString().trim()));
                     new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/signin", "POST", postData,
                             new APIAccessTask.OnCompleteListener() {
                         @Override
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showError(int code){
-        Snackbar.make(coordinatorLayoutView,"Invalid Username or Password",Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(coordinatorLayoutView,"Error code: " + code,Snackbar.LENGTH_INDEFINITE).show();
     }
 
     private void oneTimeLogin(String jsonToParse){
@@ -90,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
             editor.putString("username",userName);
             editor.putString("loginToken",loginToken);
             editor.commit();
+
+            openMainPage();
         }
         catch (Exception ex)
         {
@@ -101,22 +104,26 @@ public class LoginActivity extends AppCompatActivity {
     void checkLogin(){
 
         List<Pair<String,String>> headerData = new ArrayList<>();
-        headerData.add(new Pair<>("x-auth-token",loginData.getString("loginToken","")));
-        headerData.add(new Pair<String, String>("x-auth-username", loginData.getString("username", "")));
+        headerData.add(new Pair<>("x-access-token",loginData.getString("loginToken","")));
+        headerData.add(new Pair<>("x-auth-username", loginData.getString("username", "")));
 
-        new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/auth/user", "POST", null, headerData,
+        new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/auth/user", "GET", null, headerData,
                 new APIAccessTask.OnCompleteListener() {
                     @Override
                     public void onComplete(APIResponseObject result) {
                         if(result.responseCode == HttpURLConnection.HTTP_OK){
-                            nextPage = new Intent(LoginActivity.this,MainActivity.class);
-                            startActivity(nextPage);
-                            LoginActivity.this.finish();
+                            openMainPage();
                         }
                     }
                 }).execute();
 
 
+    }
+
+    void openMainPage(){
+        nextPage = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(nextPage);
+        LoginActivity.this.finish();
     }
 }
 

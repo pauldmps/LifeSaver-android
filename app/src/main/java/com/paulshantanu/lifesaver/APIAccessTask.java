@@ -1,9 +1,9 @@
 package com.paulshantanu.lifesaver;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -81,7 +82,7 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
     @Override
     protected APIResponseObject doInBackground(String... params) {
 
-        setupConnection();
+        Log.d("debug", "debug");
 
         if(method.equals("POST"))
         {
@@ -119,10 +120,16 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
 
     void setupConnection(){
         try {
+
             urlConnection = (HttpURLConnection) requestUrl.openConnection();
-            urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
             urlConnection.setChunkedStreamingMode(0);
+            if(headerData != null) {
+                for (Pair pair : headerData) {
+                    urlConnection.setRequestProperty(pair.first.toString(),pair.second.toString());
+                }
+            }
+
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -130,19 +137,15 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
 
     }
 
-
     private APIResponseObject httpPost(){
-
         try{
             urlConnection.setRequestMethod("POST");
         }
         catch (Exception ex){
             ex.printStackTrace();
         }
-        return new APIResponseObject(responseCode,stringifyResponse());
+        return getResponse();
     }
-
-
 
     APIResponseObject httpGet(){
 
@@ -152,7 +155,7 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
         catch (Exception ex){
             ex.printStackTrace();
         }
-        return new APIResponseObject(responseCode,stringifyResponse());
+        return getResponse();
     }
 
     APIResponseObject httpPut(){
@@ -163,7 +166,7 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
         catch (Exception ex){
             ex.printStackTrace();
         }
-        return new APIResponseObject(responseCode,stringifyResponse());
+        return getResponse();
     }
 
     APIResponseObject httpDelete(){
@@ -173,7 +176,7 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
         catch (Exception ex){
             ex.printStackTrace();
         }
-        return new APIResponseObject(responseCode,stringifyResponse());
+        return getResponse();
 
     }
 
@@ -184,20 +187,23 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
         catch (Exception ex){
             ex.printStackTrace();
         }
-        return new APIResponseObject(responseCode,stringifyResponse());
+        return getResponse();
 
     }
 
-    String stringifyResponse() {
-
+    APIResponseObject getResponse() {
+        setupConnection();
         StringBuilder sb = new StringBuilder();
         try {
-            OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-            writer.write(getQuery(postData));
-            writer.flush();
-            writer.close();
-            out.close();
+            if(postData != null) {
+                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                writer.write(getPostDataString(postData));
+                writer.flush();
+                writer.close();
+                out.close();
+            }
 
             urlConnection.connect();
             responseCode = urlConnection.getResponseCode();
@@ -214,19 +220,28 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return sb.toString();
+        return new APIResponseObject(responseCode,sb.toString());
+    }
+
+    private String getPostDataString(List<Pair<String, String>> params) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for(Pair<String,String> pair : params){
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(pair.first,"UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(pair.second, "UTF-8"));
+        }
+
+        return result.toString();
     }
 
 
-    private String getQuery(List<Pair<String,String>> params) throws UnsupportedEncodingException{
-        Uri.Builder builder = null;
-        for (Pair pair : params)
-        {
-             builder = new Uri.Builder()
-                    .appendQueryParameter(pair.first.toString(), pair.second.toString());
-                    }
-        return builder.build().getEncodedQuery();
-    }
+
 
 
 }
