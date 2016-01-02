@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         headerData.add(new Pair<>("x-access-token",loginData.getString("loginToken","")));
         headerData.add(new Pair<>("x-auth-username", loginData.getString("username", "")));
 
-        new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/auth/user", "GET", null, headerData,
+        new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/auth/user/", "GET", null, headerData,
                 new APIAccessTask.OnCompleteListener() {
                     @Override
                     public void onComplete(APIResponseObject result) {
