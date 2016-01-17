@@ -83,7 +83,7 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
 
         Log.d("debug", "debug");
         try {
-            urlConnection = (HttpURLConnection) requestUrl.openConnection();
+              urlConnection = (HttpURLConnection) requestUrl.openConnection();
 
             if(headerData != null) {
                 for (Pair pair : headerData) {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -26,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin;
+    TextView tvRegister;
     View coordinatorLayoutView;
     SharedPreferences loginData;
     Intent nextPage;
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = (EditText)findViewById(R.id.email);
         etPassword = (EditText)findViewById(R.id.password);
         btnLogin = (Button)findViewById(R.id.sign_in_button);
+        tvRegister = (TextView)findViewById(R.id.link_register);
         coordinatorLayoutView = findViewById(R.id.snackbarPosition);
 
         final List<Pair<String,String>> postData = new ArrayList<>();
@@ -56,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                postData.add(new Pair<>("username",etUsername.getText().toString().trim()));
+                postData.add(new Pair<>("email",etUsername.getText().toString().trim()));
                 postData.add(new Pair<>("password", etPassword.getText().toString().trim()));
                     new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/signin", "POST", postData,
                             new APIAccessTask.OnCompleteListener() {
@@ -72,6 +75,15 @@ public class LoginActivity extends AppCompatActivity {
                     }).execute();
             }
         });
+
+
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent registerIntent = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(registerIntent);
+            }
+        });
     }
 
     private void showError(int code){
@@ -81,14 +93,14 @@ public class LoginActivity extends AppCompatActivity {
     private void oneTimeLogin(String jsonToParse){
         try {
             JSONObject reader = new JSONObject(jsonToParse);
-            String userName = reader.getString("username");
+            String email = reader.getString("email");
             String loginToken = reader.getString("token");
 
-            Log.i("debug","username"+userName);
+            Log.i("debug","email"+email);
             Log.i("debug", "token" + loginToken);
 
             SharedPreferences.Editor editor = loginData.edit();
-            editor.putString("username",userName);
+            editor.putString("email",email);
             editor.putString("loginToken",loginToken);
             editor.commit();
 
@@ -105,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
 
         List<Pair<String,String>> headerData = new ArrayList<>();
         headerData.add(new Pair<>("x-access-token",loginData.getString("loginToken","")));
-        headerData.add(new Pair<>("x-auth-username", loginData.getString("username", "")));
+        headerData.add(new Pair<>("x-auth-email", loginData.getString("email", "")));
 
         new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/auth/user/", "GET", null, headerData,
                 new APIAccessTask.OnCompleteListener() {
