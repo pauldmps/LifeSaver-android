@@ -2,6 +2,7 @@ package com.paulshantanu.lifesaver;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -15,18 +16,26 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     EditText name, email, password, confirmPassword;
     Button btnRegister;
     Spinner bloodGroupSpinner;
     CheckBox checkBoxAgree;
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,12 @@ public class RegisterActivity extends AppCompatActivity {
         bloodGroupSpinner = (Spinner)findViewById(R.id.register_bloodgroup);
         checkBoxAgree = (CheckBox)findViewById(R.id.register_checkbox);
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
         String bloodGroups[] = {"A+","B+","AB+","O+","A-","B-","AB-","O-"};
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,bloodGroups);
@@ -57,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if(password.getText().toString().equals(confirmPassword.getText().toString())&& checkBoxAgree.isChecked()){
 
                    List<Pair<String,String>> postData = new ArrayList<>();
-                   postData.add(new Pair<String, String>("name",name.getText().toString()));
+                   postData.add(new Pair<>("name",name.getText().toString()));
                    postData.add(new Pair<>("email",email.getText().toString()));
                    postData.add(new Pair<>("password",password.getText().toString()));
                    postData.add((new Pair<>("bloodGroup",bloodGroupSpinner.getSelectedItem().toString())));
@@ -102,5 +117,28 @@ public class RegisterActivity extends AppCompatActivity {
         {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+        try {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        }
+        catch (SecurityException ex){
+            ex.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

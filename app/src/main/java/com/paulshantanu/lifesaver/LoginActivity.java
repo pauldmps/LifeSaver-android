@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 postData.add(new Pair<>("email",etUsername.getText().toString().trim()));
                 postData.add(new Pair<>("password", etPassword.getText().toString().trim()));
-                    new APIAccessTask(LoginActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/signin", "POST", postData,
+                    new APIAccessTask(LoginActivity.this, "http://lifesaver-paulshantanu.rhcloud.com/signin", "POST", postData,
                             new APIAccessTask.OnCompleteListener() {
                         @Override
                         public void onComplete(APIResponseObject result) {
@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                     }).execute();
             }
         });
-
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override

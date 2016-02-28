@@ -8,21 +8,57 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tvMain;
+    private AlphaForeGroundColorSpan mAlphaForegroundColorSpan;
+    private SpannableString mSpannableString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.getBackground().setAlpha(0);
+        toolbar.setTitle("");
+
+
+
+        mSpannableString = new SpannableString("This is a test");
+        mAlphaForegroundColorSpan = new AlphaForeGroundColorSpan(0xFFFFFF);
+
+        ScrollViewHelper scrollViewHelper = (ScrollViewHelper) findViewById(R.id.scrollViewHelper);
+        scrollViewHelper.setOnScrollViewListener(new ScrollViewHelper.OnScrollViewListener() {
+            @Override
+            public void onScrollChanged(ScrollViewHelper v, int l, int t, int oldl, int oldt) {
+                setTitleAlpha(255 - getAlphaforActionBar(v.getScrollY()));
+                toolbar.getBackground().setAlpha(getAlphaforActionBar(v.getScrollY()));
+            }
+
+            private int getAlphaforActionBar(int scrollY) {
+                int minDist = 0, maxDist = 550;
+                if (scrollY > maxDist) {
+                    return 255;
+                } else {
+                    if (scrollY < minDist) {
+                        return 0;
+                    } else {
+                        return (int) ((255.0 / maxDist) * scrollY);
+                    }
+                }
+            }
+        });
+
+
+
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -34,12 +70,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        tvMain = (TextView)findViewById(R.id.tv_main);
 
         SharedPreferences shr = getApplication().getSharedPreferences("loginData",MODE_PRIVATE);
         String userName = shr.getString("username", "");
 
-        tvMain.setText("Welcome "+ userName + "!");
+
+
+
+
 
     }
 
@@ -51,6 +89,13 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void setTitleAlpha(float alpha) {
+        if(alpha<1){ alpha = 1; }
+        mAlphaForegroundColorSpan.setAlpha(alpha);
+        mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(mSpannableString);
     }
 
     @Override
