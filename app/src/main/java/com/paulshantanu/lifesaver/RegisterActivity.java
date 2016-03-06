@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     CheckBox checkBoxAgree;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
+    Double latitude, longitude;
 
 
     @Override
@@ -76,6 +77,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                    postData.add(new Pair<>("email",email.getText().toString()));
                    postData.add(new Pair<>("password",password.getText().toString()));
                    postData.add((new Pair<>("bloodGroup",bloodGroupSpinner.getSelectedItem().toString())));
+                   postData.add(new Pair<>("lat",latitude.toString()));
+                   postData.add(new Pair<>("lon",longitude.toString()));
 
                 new APIAccessTask(RegisterActivity.this, "https://lifesaver-paulshantanu.rhcloud.com/register","POST", postData, null, new APIAccessTask.OnCompleteListener() {
                     @Override
@@ -124,6 +127,11 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
         try {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+            if(mLastLocation != null){
+                latitude = mLastLocation.getLatitude();
+                longitude = mLastLocation.getLongitude();
+            }
         }
         catch (SecurityException ex){
             ex.printStackTrace();
@@ -141,4 +149,18 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
 }
+

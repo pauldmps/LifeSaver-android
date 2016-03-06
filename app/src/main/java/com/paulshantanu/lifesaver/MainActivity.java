@@ -30,36 +30,19 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        mSpannableString = new SpannableString("This is a test");
+        mSpannableString = new SpannableString("Lifesaver");
         mAlphaForegroundColorSpan = new AlphaForeGroundColorSpan(0xFFFFFF);
 
         ScrollViewHelper scrollViewHelper = (ScrollViewHelper) findViewById(R.id.scrollViewHelper);
         scrollViewHelper.setOnScrollViewListener(new ScrollViewHelper.OnScrollViewListener() {
             @Override
             public void onScrollChanged(ScrollViewHelper v, int l, int t, int oldl, int oldt) {
-                setTitleAlpha(255 - getAlphaforActionBar(v.getScrollY()));
-                toolbar.getBackground().setAlpha(getAlphaforActionBar(v.getScrollY()));
+                setTitleAlpha(255 - ScrollViewHelper.getAlphaforActionBar(v.getScrollY()));
+                toolbar.getBackground().setAlpha(ScrollViewHelper.getAlphaforActionBar(v.getScrollY()));
             }
 
-            private int getAlphaforActionBar(int scrollY) {
-                int minDist = 0, maxDist = 550;
-                if (scrollY > maxDist) {
-                    return 255;
-                } else {
-                    if (scrollY < minDist) {
-                        return 0;
-                    } else {
-                        return (int) ((255.0 / maxDist) * scrollY);
-                    }
-                }
-            }
+
         });
-
-
-
-
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,7 +55,7 @@ public class MainActivity extends AppCompatActivity
 
 
         SharedPreferences shr = getApplication().getSharedPreferences("loginData",MODE_PRIVATE);
-        String userName = shr.getString("username", "");
+        String email = shr.getString("email", "");
 
 
 

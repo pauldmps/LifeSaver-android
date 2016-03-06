@@ -33,4 +33,17 @@ public class ScrollViewHelper extends ScrollView {
         mOnScrollViewListener.onScrollChanged( this, l, t, oldl, oldt );
         super.onScrollChanged( l, t, oldl, oldt );
     }
+
+    public static  int getAlphaforActionBar(int scrollY) {
+        int minDist = 0, maxDist = 550;
+        if (scrollY > maxDist) {
+            return 255;
+        } else {
+            if (scrollY < minDist) {
+                return 0;
+            } else {
+                return (int) ((255.0 / maxDist) * scrollY);
+            }
+        }
+    }
 }
