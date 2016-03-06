@@ -88,8 +88,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                     }
                     catch (Exception ex){
                         ex.printStackTrace();}
-
-
                 }
             }
         }).execute();
