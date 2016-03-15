@@ -83,4 +83,7 @@ Some maps, called cartograms, have the scale deliberately distorted to reflect i
 Another example of distorted scale is the famous London Underground map. The basic geographical structure is respected but the tube lines (and the River Thames) are smoothed to clarify the relationships between stations. Near the center of the map stations are spaced out more than near the edges of map.
 
 Further inaccuracies may be deliberate. For example, cartographers may simply omit military installations or remove features solely in order to enhance the clarity of the map. For example, a road map may not show railroads, smaller waterways or other prominent non-road objects, and even if it does, it may show them less clearly (e.g. dashed or dotted lines/outlines) than the main roads. Known as decluttering, the practice makes the subject matter that the user is interested in easier to read, usually without sacrificing overall accuracy. Software-based maps often allow the user to toggle decluttering between ON, OFF and AUTO as needed. In AUTO the degree of decluttering is adjusted as the user changes the scale being displayed.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

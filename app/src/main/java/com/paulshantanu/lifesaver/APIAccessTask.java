@@ -81,7 +81,7 @@ public class APIAccessTask extends AsyncTask<String,Void,APIResponseObject> {
     @Override
     protected APIResponseObject doInBackground(String... params) {
 
-        Log.d("debug", "debug");
+        Log.d("debug", "url = "+ requestUrl);
         try {
               urlConnection = (HttpURLConnection) requestUrl.openConnection();
 
