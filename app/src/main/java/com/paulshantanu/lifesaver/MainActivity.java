@@ -1,9 +1,8 @@
 package com.paulshantanu.lifesaver;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.util.Pair;
@@ -11,8 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -20,22 +17,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.json.JSONArray;
+import com.paulshantanu.lifesaver.UiHelperClasses.AlphaForeGroundColorSpan;
+import com.paulshantanu.lifesaver.UiHelperClasses.ScrollViewHelper;
+
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ListFragment.OnListFragmentInteractionListener {
 
     private AlphaForeGroundColorSpan mAlphaForegroundColorSpan;
     private SpannableString mSpannableString;
-    private List<User> userList;
-    private RecyclerView mainRecyclerView;
-    private double latitude,longitude;
+    private double latitude, longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +45,13 @@ public class MainActivity extends AppCompatActivity
 
         mSpannableString = new SpannableString("Lifesaver");
         mAlphaForegroundColorSpan = new AlphaForeGroundColorSpan(0xFFFFFF);
-        mainRecyclerView = (RecyclerView)findViewById(R.id.rv_main);
-        mainRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        mainRecyclerView.addItemDecoration(new MainRecylcerViewItemDecoration(MainActivity.this));
-        mainRecyclerView.setLayoutManager(layoutManager);
 
-
+        MapsActivity mapsActivity = new MapsActivity();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_map_fragment, mapsActivity);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
 
         ScrollViewHelper scrollViewHelper = (ScrollViewHelper) findViewById(R.id.scrollViewHelper);
@@ -118,37 +115,14 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void displayList(String jsonToDisplay){
 
-        userList = new ArrayList<>();
-
-        try {
-            JSONArray array = new JSONArray(jsonToDisplay);
-
-            for (int i=0; i< array.length(); i++){
-
-                JSONObject currentObject = array.getJSONObject(i);
-
-                JSONArray locationArray = currentObject.getJSONArray("location");
-
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-                List<Address> addresses = geocoder.getFromLocation(locationArray.getDouble(1),locationArray.getDouble(0),1);
-                String address = addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality();
-
-                double listLatitude = currentObject.getJSONArray("location").getDouble(1);
-                double listLongitude = currentObject.getJSONArray("location").getDouble(0);
-                float[] results = new float[1];
-                Log.i("debug","latitude: " + latitude+ "&" + " longitude: " + longitude);
-                Location.distanceBetween(latitude,longitude,listLatitude,listLongitude,results);
-
-                userList.add(new User(currentObject.getString("name"),address,currentObject.getString("bloodGroup"),String.valueOf(Math.round(results[0]/1000))+ " Kms away"));
-                MainRecyclerViewAdapter adapter = new MainRecyclerViewAdapter(userList);
-
-                mainRecyclerView.setAdapter(adapter);
-            }
-        }
-        catch (Exception ex){ex.printStackTrace();}
+    void displayList(String jsonToParse){
+        ListFragment listFragment = ListFragment.newInstance(jsonToParse,latitude,longitude);
+        FragmentManager listFragmentManager = getFragmentManager();
+        FragmentTransaction listFragmentTransaction = listFragmentManager.beginTransaction();
+        listFragmentTransaction.replace(R.id.container_list_fragment,listFragment);
+        listFragmentTransaction.addToBackStack(null);
+        listFragmentTransaction.commit();
     }
 
     @Override
@@ -216,4 +190,10 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onListFragmentInteraction(User user) {
+
+
+
+    }
 }

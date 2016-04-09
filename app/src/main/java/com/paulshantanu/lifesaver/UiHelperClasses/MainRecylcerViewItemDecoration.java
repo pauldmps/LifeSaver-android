@@ -1,4 +1,4 @@
-package com.paulshantanu.lifesaver;
+package com.paulshantanu.lifesaver.UiHelperClasses;
 
 import android.content.Context;
 import android.content.res.TypedArray;
