@@ -8,7 +8,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,12 +75,26 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-            mainRecyclerView = (RecyclerView) view.findViewById(R.id.rv_main);
-            mainRecyclerView.setHasFixedSize(true);
-            mainRecyclerView.setNestedScrollingEnabled(false);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            mainRecyclerView.addItemDecoration(new MainRecylcerViewItemDecoration(getActivity()));
-            mainRecyclerView.setLayoutManager(layoutManager);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        DisplayMetrics displayMetrics  = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        float density = getResources().getDisplayMetrics().density;
+        float dpHeight = displayMetrics.heightPixels/density;
+
+        ViewGroup.LayoutParams map_params = view.getLayoutParams();
+        map_params.height = (int)dpHeight;
+        view.setLayoutParams(map_params);
+
+        mainRecyclerView = (RecyclerView) view.findViewById(R.id.rv_main);
+        mainRecyclerView.setHasFixedSize(true);
+        mainRecyclerView.setNestedScrollingEnabled(false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mainRecyclerView.addItemDecoration(new MainRecylcerViewItemDecoration(getActivity()));
+        mainRecyclerView.setLayoutManager(layoutManager);
+
+        ViewGroup.LayoutParams list_params = mainRecyclerView.getLayoutParams();
+        list_params.height = (int)dpHeight;
+        mainRecyclerView.setLayoutParams(list_params);
 
         return view;
     }

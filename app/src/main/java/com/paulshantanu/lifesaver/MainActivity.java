@@ -46,9 +46,21 @@ public class MainActivity extends AppCompatActivity
         mSpannableString = new SpannableString("Lifesaver");
         mAlphaForegroundColorSpan = new AlphaForeGroundColorSpan(0xFFFFFF);
 
+        /*Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics displayMetrics  = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+
+
+        float density = getResources().getDisplayMetrics().density;
+        float dpHeight = displayMetrics.heightPixels/density;
+*/
         MapsActivity mapsActivity = new MapsActivity();
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        /*ViewGroup.LayoutParams params = mapsActivity.getView().getLayoutParams();
+        params.height = (int)dpHeight/2;
+        mapsActivity.getView().setLayoutParams(params);*/
         fragmentTransaction.replace(R.id.container_map_fragment, mapsActivity);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
