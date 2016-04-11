@@ -35,7 +35,7 @@ public class ListFragment extends Fragment {
     private RecyclerView mainRecyclerView;
 
     private OnListFragmentInteractionListener mListener;
-
+    private List<User> userList;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -107,6 +107,13 @@ public class ListFragment extends Fragment {
         MainRecyclerViewAdapter adapter = displayList(jsonToParse);
         mainRecyclerView.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
+
+            @Override
+            public void onClick(View v, int pos) {
+                mListener.onListFragmentInteraction(userList.get(pos));
+            }
+        });
     }
 
     /**
@@ -126,7 +133,7 @@ public class ListFragment extends Fragment {
 
     public MainRecyclerViewAdapter displayList(String jsonToDisplay){
 
-        List<User> userList = new ArrayList<>();
+        userList = new ArrayList<>();
 
         try {
             JSONArray array = new JSONArray(jsonToDisplay);

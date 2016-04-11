@@ -3,6 +3,7 @@ package com.paulshantanu.lifesaver;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.util.Pair;
@@ -16,6 +17,8 @@ import android.text.SpannableString;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 
 import com.paulshantanu.lifesaver.UiHelperClasses.AlphaForeGroundColorSpan;
 import com.paulshantanu.lifesaver.UiHelperClasses.ScrollViewHelper;
@@ -27,16 +30,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ListFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+            ListFragment.OnListFragmentInteractionListener, UserDetailsFragment.OnUserDetailsFragmentInteractionListener {
 
     private AlphaForeGroundColorSpan mAlphaForegroundColorSpan;
     private SpannableString mSpannableString;
     private double latitude, longitude;
+    private ActionBarDrawerToggle toggle;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_map_fragment, mapsActivity);
-        fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
 
@@ -65,11 +71,37 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if(getFragmentManager().getBackStackEntryCount() > 0){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onBackPressed();
+                        }
+                    });
+                }
+                else{
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    drawer.addDrawerListener(toggle);
+                    toggle.syncState();
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            drawer.openDrawer(GravityCompat.START);
+                        }
+                    });
+                }
+            }
+        });
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -121,19 +153,25 @@ public class MainActivity extends AppCompatActivity
         FragmentManager listFragmentManager = getFragmentManager();
         FragmentTransaction listFragmentTransaction = listFragmentManager.beginTransaction();
         listFragmentTransaction.replace(R.id.container_list_fragment,listFragment);
-        listFragmentTransaction.addToBackStack(null);
+        //listFragmentTransaction.addToBackStack(null);
         listFragmentTransaction.commit();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+       DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else if(getFragmentManager().getBackStackEntryCount() > 0)
+        {
+                getFragmentManager().popBackStack();
+        }
+        else {
             super.onBackPressed();
         }
     }
+
 
     private void setTitleAlpha(float alpha) {
         if(alpha<1){ alpha = 1; }
@@ -192,8 +230,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(User user) {
+        UserDetailsFragment userDetailsFragment = UserDetailsFragment.newInstance();
+        FragmentManager listFragmentManager = getFragmentManager();
+        FragmentTransaction listFragmentTransaction = listFragmentManager.beginTransaction();
+        listFragmentTransaction.replace(R.id.container_list_fragment,userDetailsFragment);
+        listFragmentTransaction.addToBackStack(null);
+        listFragmentTransaction.commit();
+    }
 
-
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
+
 }

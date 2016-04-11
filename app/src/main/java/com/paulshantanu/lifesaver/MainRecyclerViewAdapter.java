@@ -16,6 +16,8 @@ import java.util.List;
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MainViewHolder>{
 
     public List<User> users;
+    OnItemClickListener onItemClickListener;
+
 
     MainRecyclerViewAdapter(List<User> users){
         this.users = users;
@@ -45,12 +47,19 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(MainViewHolder mainViewHolder, int position) {
+    public void onBindViewHolder(MainViewHolder mainViewHolder, final int position) {
 
         mainViewHolder.name.setText(users.get(position).name);
         mainViewHolder.address.setText(users.get(position).address);
         mainViewHolder.bloodgroup.setText(users.get(position).bloodgroup);
         mainViewHolder.distance.setText(users.get(position).distance);
+
+        mainViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onClick(v,position);
+            }
+        });
     }
 
     @Override
@@ -58,6 +67,13 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         return users.size();
     }
 
+    public interface OnItemClickListener {
+        void onClick(View v, int pos);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
 }
 
 

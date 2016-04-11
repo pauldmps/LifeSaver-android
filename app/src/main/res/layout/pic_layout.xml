@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/pic_container">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/sampler_v4"
+        android:id="@+id/profile_pic"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/circle_crop"/>
+
+
+</FrameLayout>
+
+    <include layout="@layout/list_badge"
+        android:layout_height="40dp"
+        android:layout_width="40dp"
+        android:layout_alignBottom="@id/pic_container"
+        android:layout_alignRight="@id/pic_container"/>
+
+</RelativeLayout>

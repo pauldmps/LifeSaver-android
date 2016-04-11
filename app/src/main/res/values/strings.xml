@@ -22,68 +22,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_maps">Map</string>
-    <string name="main">A map is a symbolic depiction highlighting relationships between elements of some space, such as objects, regions, and themes.
-
-Many maps are static two-dimensional, geometrically accurate (or approximately accurate) representations of three-dimensional space, while others are dynamic or interactive, even three-dimensional. Although most commonly used to depict geography, maps may represent any space, real or imagined, without regard to context or scale; e.g. brain mapping, DNA mapping and extraterrestrial mapping.
-
-Although the earliest maps known are of the heavens, geographic maps of territory have a very long tradition and exist from ancient times. The word "map" comes from the medieval Latin Mappa mundi, wherein mappa meant napkin or cloth and mundi the world. Thus, "map" became the shortened term referring to a two-dimensional representation of the surface of the world.
-
-Contents  [hide]
-1	Geographic maps
-2	Orientation of maps
-3	Scale and accuracy
-4	Map types and projections
-4.1	Electronic maps
-5	Climatic maps
-6	Conventional signs
-6.1	Labeling
-7	Non-geographical spatial maps
-8	Non spatial maps
-9	General-purpose maps
-10	Types of maps
-11	Legal regulation
-12	See also
-13	Notes
-14	External links
-Geographic maps[edit]
-
-A celestial map from the 17th century, by the cartographer Frederik de Wit
-Cartography or map-making is the study and practice of crafting representations of the Earth upon a flat surface (see History of cartography), and one who makes maps is called a cartographer.
-
-Road maps are perhaps the most widely used maps today, and form a subset of navigational maps, which also include aeronautical and nautical charts, railroad network maps, and hiking and bicycling maps. In terms of quantity, the largest number of drawn map sheets is probably made up by local surveys, carried out by municipalities, utilities, tax assessors, emergency services providers, and other local agencies. Many national surveying projects have been carried out by the military, such as the British Ordnance Survey: a civilian government agency, internationally renowned for its comprehensively detailed work.
-
-In addition to location information maps may also be used to portray contour lines indicating constant values of elevation, temperature, rainfall, etc.
-
-Orientation of maps[edit]
-
-The Hereford Mappa Mundi from about 1300, Hereford Cathedral, England, is a classic "T-O" map with Jerusalem at centre, east toward the top, Europe the bottom left and Africa on the right.
-The orientation of a map is the relationship between the directions on the map and the corresponding compass directions in reality. The word "orient" is derived from Latin oriens, meaning East. In the Middle Ages many maps, including the T and O maps, were drawn with East at the top (meaning that the direction "up" on the map corresponds to East on the compass). Today, the most common – but far from universal – cartographic convention is that North is at the top of a map. Several kinds of maps are often traditionally not oriented with North at the top:
-
-Maps from non-Western traditions are oriented a variety of ways. Old maps of Edo show the Japanese imperial palace as the "top", but also at the centre, of the map. Labels on the map are oriented in such a way that you cannot read them properly unless you put the imperial palace above your head.[citation needed]
-Medieval European T and O maps such as the Hereford Mappa Mundi were centred on Jerusalem with East at the top. Indeed, prior to the reintroduction of Ptolemy\'s Geography to Europe around 1400, there was no single convention in the West. Portolan charts, for example, are oriented to the shores they describe.
-Maps of cities bordering a sea are often conventionally oriented with the sea at the top.
-Route and channel maps have traditionally been oriented to the road or waterway they describe.
-Polar maps of the Arctic or Antarctic regions are conventionally centred on the pole; the direction North would be towards or away from the centre of the map, respectively. Typical maps of the Arctic have 0° meridian towards the bottom of the page; maps of the Antarctic have the 0° meridian towards the top of the page.
-Reversed maps, also known as Upside-Down maps or South-Up maps, reverse the North is up convention and have south at the top.
-Buckminster Fuller\'s Dymaxion maps are based on a projection of the Earth\'s sphere onto an icosahedron. The resulting triangular pieces may be arranged in any order or orientation.
-Modern digital GIS maps such as ArcMap typically project north at the top of the map, but use math degrees (0 is east, degrees increase counter-clockwise), rather than compass degrees (0 is north, degrees increase clockwise) for orientation of transects. Compass decimal degrees can be converted to math degrees by subtracting them from 450; if the answer is greater than 360, subtract 360.
-Scale and accuracy[edit]
-
-A \'global view map\' of Europe, Western Asia and Africa.
-Many, but not all, maps are drawn to a scale, expressed as a ratio such as 1:10,000, meaning that 1 of any unit of measurement on the map corresponds exactly, to 10,000 of that same unit on the ground. The scale statement may be taken as exact when the region mapped is small enough for the curvature of the Earth to be neglected, for example in a town planner\'s city map. Over larger regions where the curvature cannot be ignored we must use map projections from the curved surface of the Earth (sphere or ellipsoid) to the plane. The impossibility of flattening the sphere to the plane implies that no map projection can have constant scale: on most projections the best we can achieve is accurate scale on one or two lines (not necessarily straight) on the projection. Thus for map projections we must introduce the concept of point scale, which is a function of position, and strive to keep its variation within narrow bounds. Although the scale statement is nominal it is usually accurate enough for all but the most precise of measurements.
-
-Large scale maps, say 1:10,000, cover relatively small regions in great detail and small scale maps, say 1:10,000,000, cover large regions such as nations, continents and the whole globe. The large/small terminology arose from the practice of writing scales as numerical fractions: 1/10,000 is larger than 1/10,000,000. There is no exact dividing line between large and small but 1/100,000 might well be considered as a medium scale. Examples of large scale maps are the 1:25,000 maps produced for hikers; on the other hand maps intended for motorists at 1:250,000 or 1:1,000,000 are small scale.
-
-It is important to recognize that even the most accurate maps sacrifice a certain amount of accuracy in scale to deliver a greater visual usefulness to its user. For example, the width of roads and small streams are exaggerated when they are too narrow to be shown on the map at true scale; that is, on a printed map they would be narrower than could be perceived by the naked eye. The same applies to computer maps where the smallest unit is the pixel. A narrow stream say must be shown to have the width of a pixel even if at the map scale it would be a small fraction of the pixel width.
-
-
-Cartogram: The EU distorted to show population distributions.
-Some maps, called cartograms, have the scale deliberately distorted to reflect information other than land area or distance. For example, this map (at the right) of Europe has been distorted to show population distribution, while the rough shape of the continent is still discernible.
-
-Another example of distorted scale is the famous London Underground map. The basic geographical structure is respected but the tube lines (and the River Thames) are smoothed to clarify the relationships between stations. Near the center of the map stations are spaced out more than near the edges of map.
-
-Further inaccuracies may be deliberate. For example, cartographers may simply omit military installations or remove features solely in order to enhance the clarity of the map. For example, a road map may not show railroads, smaller waterways or other prominent non-road objects, and even if it does, it may show them less clearly (e.g. dashed or dotted lines/outlines) than the main roads. Known as decluttering, the practice makes the subject matter that the user is interested in easier to read, usually without sacrificing overall accuracy. Software-based maps often allow the user to toggle decluttering between ON, OFF and AUTO as needed. In AUTO the degree of decluttering is adjusted as the user changes the scale being displayed.</string>
-
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_request_contact_details">Request Contact Details</string>
 </resources>
