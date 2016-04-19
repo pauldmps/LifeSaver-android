@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +13,17 @@
     tools:context="com.paulshantanu.lifesaver.RegisterActivity"
     tools:showIn="@layout/activity_register"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <include layout="@layout/register_pic_layout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -61,33 +73,17 @@
         android:inputType="textPassword"
         android:singleLine="true"/>
 </android.support.design.widget.TextInputLayout>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
-    android:paddingTop="16dp"
-    android:text="Blood Group"
-    android:paddingLeft="5dp"
-    android:textSize="12sp"/>
-<Spinner
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/register_bloodgroup"
-    />
 
- <CheckBox
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:text="I agree to the terms and conditions."
-     android:id="@+id/register_checkbox"/>
+    </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:id="@+id/button_register"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"/>
+        android:foregroundGravity="bottom|right"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/blood_drop_plain"
+        app:backgroundTint="@android:color/white"
+        android:id="@+id/button_register"/>
 
-</LinearLayout>
+</FrameLayout>

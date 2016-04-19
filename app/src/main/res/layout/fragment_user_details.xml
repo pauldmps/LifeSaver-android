@@ -4,15 +4,13 @@
     android:layout_height="match_parent"
     tools:context="com.paulshantanu.lifesaver.UserDetailsFragment">
 
-    <ScrollView android:layout_width="match_parent"
-        android:layout_height="match_parent">
      <LinearLayout
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:orientation="vertical"
          android:layout_margin="20dp">
 
-         <include layout="@layout/pic_layout"
+         <include layout="@layout/register_pic_layout"
              android:layout_width="100dp"
              android:layout_height="100dp"
              android:layout_gravity="center"
@@ -20,6 +18,7 @@
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
+             android:id="@+id/user_details_name"
              android:text="Sample Name"
              android:layout_gravity="center"
              android:textSize="20sp"/>
@@ -27,6 +26,7 @@
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
+             android:id="@+id/user_details_distance"
              android:text="X kms away"
              android:layout_gravity="center"
              android:layout_margin="10dp"/>
@@ -40,18 +40,21 @@
              <TextView
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:id="@+id/details_view"
                  android:text="Sample address"
                  android:layout_gravity="center"
                  android:padding="10dp"/>
              <TextView
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:id="@+id/user_details_email"
                  android:text="Sample email"
                  android:layout_gravity="center"
                  android:padding="10dp"/>
              <TextView
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:id="@+id/user_details_contact"
                  android:text="Sample contact number"
                  android:layout_gravity="center"
                  android:padding="10dp"/>
@@ -60,12 +63,11 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/button_request_details"
             android:background="@color/colorAccent"
             android:text="@string/action_request_contact_details"
             android:textColor="@android:color/white"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center"/>
 
      </LinearLayout>
-    </ScrollView>
 </android.support.v7.widget.CardView>

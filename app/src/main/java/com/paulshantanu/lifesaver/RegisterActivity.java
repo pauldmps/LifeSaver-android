@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -51,8 +50,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         password = (EditText)findViewById(R.id.register_password);
         confirmPassword = (EditText)findViewById(R.id.register_confirm_password);
         btnRegister = (Button)findViewById(R.id.button_register);
-        bloodGroupSpinner = (Spinner)findViewById(R.id.register_bloodgroup);
-        checkBoxAgree = (CheckBox)findViewById(R.id.register_checkbox);
+        //bloodGroupSpinner = (Spinner)findViewById(R.id.register_bloodgroup);
+        //checkBoxAgree = (CheckBox)findViewById(R.id.register_checkbox);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -60,10 +59,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 .addApi(LocationServices.API)
                 .build();
 
-        String bloodGroups[] = {"A+","B+","AB+","O+","A-","B-","AB-","O-"};
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,bloodGroups);
-        bloodGroupSpinner.setAdapter(spinnerAdapter);
+        
+        //ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,bloodGroups);
+        //bloodGroupSpinner.setAdapter(spinnerAdapter);
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {

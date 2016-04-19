@@ -1,5 +1,6 @@
 package com.paulshantanu.lifesaver;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
@@ -14,46 +17,63 @@ import android.view.ViewGroup;
  * Activities that contain this fragment must implement the
  * {@link OnUserDetailsFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UserDetailsFragment#newInstance} factory method to
+ * Use the {@link UserDetailsFragment#} factory method to
  * create an instance of this fragment.
  */
 public class UserDetailsFragment extends Fragment {
 
     private OnUserDetailsFragmentInteractionListener mListener;
+    private User user;
+    private TextView tv_user_name;
+    private TextView tv_user_distance;
+    private TextView tv_user_email;
+    private TextView tv_user_contact;
+    private Button btn_user_details;
 
     public UserDetailsFragment() {
-        // Required empty public constructor
+
+    }
+
+    @SuppressLint("ValidFragment")
+    public UserDetailsFragment(User user) {
+        this.user = user;
     }
 
     /**
      * Use this factory method to create a new instance of
      */
 
-    // TODO: Rename and change types and number of parameters
-    public static UserDetailsFragment newInstance() {
+    /* // TODO: Rename and change types and number of parameters
+    public static UserDetailsFragment newInstance(User user) {
         UserDetailsFragment fragment = new UserDetailsFragment();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
+    } */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-           // mParam1 = getArguments().getString(ARG_PARAM1);
-           // mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        //setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_details, container, false);
+        tv_user_name = (TextView)view.findViewById(R.id.user_details_name);
+        tv_user_distance = (TextView)view.findViewById(R.id.user_details_distance);
+        tv_user_contact = (TextView)view.findViewById(R.id.user_details_contact);
+        tv_user_email = (TextView)view.findViewById(R.id.user_details_email);
+        btn_user_details = (Button)view.findViewById(R.id.button_request_details);
+
+        tv_user_name.setText(user.getName());
+        tv_user_distance.setText(user.getDistance());
+        tv_user_email.setText(user.getEmail());
+        tv_user_contact.setText(user.getContactNumber());
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

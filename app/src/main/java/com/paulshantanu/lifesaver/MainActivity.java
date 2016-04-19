@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(User user) {
-        UserDetailsFragment userDetailsFragment = UserDetailsFragment.newInstance();
+        UserDetailsFragment userDetailsFragment = new UserDetailsFragment(user);
         FragmentManager listFragmentManager = getFragmentManager();
         FragmentTransaction listFragmentTransaction = listFragmentManager.beginTransaction();
         listFragmentTransaction.replace(R.id.container_list_fragment,userDetailsFragment);
